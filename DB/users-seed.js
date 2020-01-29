@@ -4,32 +4,61 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 const Users = require('../models/Users');
+const Recipe = require('../models/Recipes');
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(x => {
-  console.log('Connect to Mongo DB and ready to seed!')
-})
-.catch(error => {
-  console.log('Error connecting to Mongo DB', error)
-})
+  .then((_) => {
+    console.log('Connect to Mongo DB and ready to seed!')
+  })
+  .catch((error) => {
+    console.log('Error connecting to Mongo DB', error)
+  })
 
 const users = [{
-
+  firstName: 'Giulia',
+  lastName: 'Roperto',
+  username: 'giulia',
+  password: '1234',
+  role: 'admin',
+}, {
+  firstName: 'Henrique',
+  lastName: 'Mandruzato',
+  username: 'henrique',
+  password: '1234',
+  role: 'admin',
+}, {
+  firstName: 'Alex',
+  lastName: 'Chivvy',
+  username: 'alex',
+  password: '1234',
+  role: 'admin',
+}, {
+  firstName: 'Fernando',
+  lastName: 'Borrelli',
+  username: 'fernando',
+  password: '1234',
+  role: 'admin',
+}, {
+  firstName: 'User',
+  lastName: 'Vegan',
+  username: 'user',
+  password: '1234',
+  role: 'user',
 }]
 
-users.forEach(user => {
+users.forEach((user) => {
+  const { firstName, lastName, username, password, role } = user;
+
   const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(user.password, salt);
-  user.password = hashPass;
-})
+  const hashPass = bcrypt.hashSync(password, salt);
 
-
-Users.create(users)
-  .then(allUsers => {
-    console.log(`Created ${allUsers.length} users`);
-    mongoose.connection.close();
-  })
-  .catch(err => console.log(err));
+  Users.create({ firstName, lastName, username, password: hashPass, role })
+    .then((userData) => {
+      console.log(`Created user ${userData}`);
+      mongoose.connection.close();
+    })
+    .catch((err) => console.log(err));
+});

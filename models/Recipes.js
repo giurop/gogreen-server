@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const User = require('./Users');
-const Review = require('./');
+const Review = require('./Reviews');
 
 const recipeSchema = new Schema({
   name: { type: String, required: true },
