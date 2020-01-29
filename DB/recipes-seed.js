@@ -14,7 +14,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.log('Error connecting to Mongo DB', error)
 })
 
-const recipes = [{}]
+const recipes = [{
+  
+}]
 
 Recipes.create(recipes)
   .then(allRecipes => {
