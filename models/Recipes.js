@@ -8,6 +8,7 @@ const recipeSchema = new Schema({
   description: String,
   ingredients: [{ type: String, required: true }],
   dishTypes: [String],
+  vegan: false,
   cuisines: [String],
   readyInMinutes: Number,
   servings: Number,
