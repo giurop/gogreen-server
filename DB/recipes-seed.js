@@ -1,7 +1,12 @@
+// Instantiation of required Schema, mongoose ODM library, and crude recipes input
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Recipes = require('../models/Recipes');
+const recipesCrudeJSON = require('./crude-recipes');
 
+
+// console.log(process.env);
+// Mongoose setup via .env 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -11,8 +16,75 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .catch(error => {
   console.log('Error connecting to Mongo DB', error)
-})
+});
 
+// Function to clean up the crude recipe data
+const cleanRecipesFunction = (recipesCrude) => {
+
+  let recipesClean = [];
+  let arrInstructions = [];
+  let newRecipeClean = {};
+  let newInstruction = {};
+  let strIngredients = '';
+  let prepTimeMinutes = '';
+
+  for (let i = 0; i < recipesCrude.length; i += 1) {
+    strIngredients = '';
+    for (let j = 0; j < recipesCrude[i]["extendedIngredients"].length; j += 1) {
+      strIngredients += `${
+        recipesCrude[i]["extendedIngredients"][j]["originalString"]
+      }\n`;
+    }
+
+    arrInstructions = [];
+    if (recipesCrude[i]["analyzedInstructions"][0] === undefined){
+      arrInstructions = [];
+    } else {
+      for (
+        let j = 0;
+        j < recipesCrude[i]["analyzedInstructions"][0]["steps"].length;
+        j += 1
+      ) {
+        if (recipesCrude[i]["analyzedInstructions"][0]["steps"][j]["length"] === undefined){
+          prepTimeMinutes = ``
+        } else {
+          prepTimeMinutes = recipesCrude[i]["analyzedInstructions"][0]["steps"][j]["length"]["number"] 
+        }
+        newInstruction = {
+          step: recipesCrude[i]["analyzedInstructions"][0]["steps"][j]["number"],
+          text: recipesCrude[i]["analyzedInstructions"][0]["steps"][j]["step"],
+          stepTimeMinutes: prepTimeMinutes
+        }
+      arrInstructions.push(newInstruction);
+      }
+    }
+
+    newRecipeClean = {
+      name: recipesCrude[i]["title"],
+      description: '',
+      verified: true,
+      vegan: recipesCrude[i]["vegan"],
+      dishTypes: recipesCrude[i]["dishTypes"],
+      cuisines: recipesCrude[i]["cuisines"],
+      totalTimeMinutes: recipesCrude[i]["readyInMinutes"],
+      servings: recipesCrude[i]["servings"],
+      picture: recipesCrude[i]["image"],
+      ingredients: strIngredients,
+      ownerAPI: `Spoonacular - ${recipesCrude[i]["sourceName"]}`,
+      instructions: arrInstructions,
+      reviews: []
+    };
+    recipesClean.push(newRecipeClean);
+  }
+  return recipesClean;
+};
+
+<<<<<<< HEAD
+// Actual clean up of crude recipe data
+const recipesSeed = cleanRecipesFunction(recipesCrudeJSON);
+
+// Using Recipes Schema to input into Mongoose Database
+=======
 const cleanRecipesFunction = () => {
 
   let recipesClean = [];
@@ -39170,6 +39242,7 @@ const cleanRecipesFunction = () => {
 
 const recipesSeed = cleanRecipesFunction();
 
+>>>>>>> dev
 Recipes.create(recipesSeed)
   .then(allRecipes => {
     console.log(`Created ${allRecipes.length} recipes`);

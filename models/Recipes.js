@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
-const User = require('./Users');
-const Review = require('./');
+const { Schema, model } = mongoose;
 
 const recipeSchema = new Schema({
   name: { type: String, required: true },
@@ -10,18 +8,23 @@ const recipeSchema = new Schema({
   dishTypes: [String],
   vegan: false,
   cuisines: [String],
-  readyInMinutes: Number,
+  totalTimeMinutes: Number,
   servings: Number,
-  instructions: [{
-    step: String,
-    duration: Number,
-  }],
+  instructions: [
+    {
+      step: Number,
+      text: String,
+      stepTimeMinutes: Number,
+    },
+  ],
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
+  // owner api when the data comes from the api and has no ref to the users
+  ownerAPI: String,
   picture: String,
   verified: false,
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
 });
 
-const Recipe = mongoose.model('Recipe', recipeSchema);
+const Recipe = model('Recipe', recipeSchema);
 
 module.exports = Recipe;
