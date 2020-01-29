@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const bcryptSalt = 10;
 const Users = require('../models/Users');
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -14,7 +16,16 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.log('Error connecting to Mongo DB', error)
 })
 
-const users = [{}]
+const users = [{
+
+}]
+
+users.forEach(user => {
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(user.password, salt);
+  user.password = hashPass;
+})
+
 
 Users.create(users)
   .then(allUsers => {
