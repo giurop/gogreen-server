@@ -25,8 +25,9 @@ router.put('/user/:username', (req, res, next) => {
     return;
   }
 
-  User.find({username: usernameParam })
+  User.find({ username: usernameParam })
     .then((response) => {
+      console.log(response);
       if (!bcrypt.compareSync(oldPassword, response.password)) {
         res.json({ message: 'Incorrect password' });
         return;
@@ -52,7 +53,7 @@ router.delete('/user/:username', (req, res, next) => {
   const { username } = req.params;
 
   User.findOneAndRemove({ username })
-    .then((_) => res.status(200).json({ message: `User ${username} deleted successfully.` }))
+    .then((_) => res.status(200).json({ message: `User ${username} was successfully deleted.` }))
     .catch((err) => res.json(err));
 });
 
@@ -60,8 +61,8 @@ router.delete('/user/:username', (req, res, next) => {
 module.exports = router;
 
 
-// GET - profile details
+// GET - profile details - route API DONE
 // /user/:username - route API DONE
-// PUT - edit profile
+// PUT - edit profile - route API DONE
 // /user/:username/'edit' - route API DONE
-// DELETE - delete profile
+// DELETE - delete profile - route API Done

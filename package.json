@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/giurop/gogreen-server#readme",
   "dependencies": {
-    "bcrypt": "^3.0.7",
     "cloudinary": "^1.19.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.4",
