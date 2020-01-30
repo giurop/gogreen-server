@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const bcryptSalt = 10;
 const Users = require('../models/Users');
 const Recipe = require('../models/Recipes');
