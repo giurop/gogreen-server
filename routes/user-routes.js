@@ -17,32 +17,34 @@ router.get('/user/:username', (req, res, next) => {
 });
 
 router.put('/user/:username', (req, res, next) => {
-  const { usernameParam } = req.params;
-  const { firstName, lastName, email, username, oldPassword, newPassword } = req.body;
+  const { username } = req.params;
+  const { firstName, lastName, email, usernameForm, oldPassword, newPassword } = req.body;
+
+  console.log(username);
 
   if (!oldPassword) {
     res.json({ message: 'Password is required' });
     return;
   }
 
-  User.find({username: usernameParam })
+  User.findOne({ username })
     .then((response) => {
       if (!bcrypt.compareSync(oldPassword, response.password)) {
         res.json({ message: 'Incorrect password' });
         return;
       }
-
+      
       if (newPassword) {
-        const salt = bcrypt.genSaltSync(bcryptSalt);
-        const password = bcrypt.hashSync(newPassword, salt);
-
-        User.findOneAndUpdate({ username: response.username }, { firstName, lastName, email, username, password })
+          const salt = bcrypt.genSaltSync(bcryptSalt);
+          const password = bcrypt.hashSync(newPassword, salt);
+          
+          User.findOneAndUpdate({ username }, { firstName, lastName, email, username: usernameForm, password }, { new: true })
           .then((_) => res.status(200).json({ message: `User ${username} was updated successfully.` }))
-          .catch((err) => res.json(err));
+          .catch((err) => res.json(err))
         } else {
-          User.findOneAndUpdate({ username: response.username }, { firstName, lastName, email, username, oldpPassword })
+          User.findOneAndUpdate({ username }, { firstName, lastName, email, username: usernameForm }, { new: true })
             .then((_) => res.status(200).json({ message: `User ${username} was updated successfully.` }))
-            .catch((err) => res.json(err));
+            .catch((err) => res.json(err))
       }
     })
     .catch((err) => res.json(err));
@@ -52,7 +54,7 @@ router.delete('/user/:username', (req, res, next) => {
   const { username } = req.params;
 
   User.findOneAndRemove({ username })
-    .then((_) => res.status(200).json({ message: `User ${username} deleted successfully.` }))
+    .then((_) => res.status(200).json({ message: `User ${username} was successfully deleted.` }))
     .catch((err) => res.json(err));
 });
 
@@ -60,8 +62,8 @@ router.delete('/user/:username', (req, res, next) => {
 module.exports = router;
 
 
-// GET - profile details
+// GET - profile details - route API DONE
 // /user/:username - route API DONE
-// PUT - edit profile
+// PUT - edit profile - route API DONE
 // /user/:username/'edit' - route API DONE
-// DELETE - delete profile
+// DELETE - delete profile - route API Done
