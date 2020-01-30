@@ -5,3 +5,8 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 
 module.exports = authRoutes;
+
+// POST - signup/login
+
+// /login
+// /signup

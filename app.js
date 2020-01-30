@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
@@ -59,6 +60,10 @@ app.use('/', index);
 
 const authRoutes = require('./routes/auth-routes');
 app.use('/', authRoutes);
+
+app.use('/api', require('./routes/user-routes'));
+app.use('/api', require('./routes/recipe-routes'));
+app.use('/api', require('./routes/review-routes'));
 
 app.listen(process.env.PORT, () => console.log(`Listening on Port: ${process.env.PORT}`));
 
