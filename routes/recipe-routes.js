@@ -34,7 +34,7 @@ router.get('/recipe/:id', (req, res, next) => {
   .catch(err => res.json(err));
 })
 
-//POST Route to add a recipe
+//POST Route to add a new recipe
 router.post('/add-a-new-recipe', (req, res, next) => {
   const { name, description, ingredients, dishTypes, vegan, cuisines, totalTimeMinutes, servings, instructions, picture } = req.body; 
   Recipes.create({ name, description, ingredients, dishTypes, vegan, cuisines, totalTimeMinutes, servings, instructions, picture })
