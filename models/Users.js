@@ -6,10 +6,13 @@ const Recipe = require('./Recipes');
 const userSchema = new Schema({
   firstName: String,
   lastName: String,
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true},
+  email: String,
   password: { type: String, required: true },
   favourites: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
   role: { type: String, enum: ['admin', 'user'] },
+}, {
+  timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
 
 const User = mongoose.model('User', userSchema);

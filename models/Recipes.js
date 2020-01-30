@@ -23,6 +23,8 @@ const recipeSchema = new Schema({
   picture: String,
   verified: false,
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+}, {
+  timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
 
 const Recipe = model('Recipe', recipeSchema);
