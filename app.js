@@ -33,7 +33,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   cookie: {
-    maxAge: 6000000, //TODO random value - adjust
+    maxAge: 6000000,
   },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
