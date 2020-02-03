@@ -40,7 +40,7 @@ router.post('/add-a-new-recipe', (req, res, next) => {
   Recipes.create({ name, description, ingredients, dishTypes, vegan, cuisines, totalTimeMinutes, servings, instructions, picture })
   .then(newRecipe => {
     console.log(newRecipe)
-    res.json({ message: `${newRecipe.name}  successfuly created!` })
+    res.status(200).json({ message: `${newRecipe.name}  successfuly created!`, newRecipe })
   })
   .catch(err => res.json(err))
 })
