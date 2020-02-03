@@ -6,7 +6,7 @@ const bcryptSalt = 10;
 const Users = require('../models/Users');
 const Recipe = require('../models/Recipes');
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect('mongodb://localhost/go-green', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
