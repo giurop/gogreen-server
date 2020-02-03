@@ -17,6 +17,7 @@ router.get('/user/:username', (req, res, next) => {
 });
 
 router.put('/user/:username', (req, res, next) => {
+  console.log('hit back edit')
   const { username } = req.params;
   const { firstName, lastName, email, usernameForm, oldPassword, newPassword } = req.body;
 

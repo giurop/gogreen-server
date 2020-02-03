@@ -6,7 +6,7 @@ const recipeSchema = new Schema({
   description: String,
   ingredients: [{ type: String, required: true }],
   dishTypes: [String],
-  vegan: false,
+  vegan: {type: Boolean, default: false},
   cuisines: [String],
   totalTimeMinutes: Number,
   servings: Number,
@@ -21,7 +21,7 @@ const recipeSchema = new Schema({
   // owner api when the data comes from the api and has no ref to the users
   ownerAPI: String,
   picture: String,
-  verified: false,
+  verified: {type: Boolean, default: false},
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
