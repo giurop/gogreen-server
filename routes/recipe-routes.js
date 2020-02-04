@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Users = require('../models/Users')
 const Recipes = require('../models/Recipes');
+const Reviews = require('../models/Reviews')
 const uploadCloud = require('../configs/cloudinary');
 
 //GET Route to access all Recipes
 router.get('/allrecipes', (req, res, next) => {
 
   Recipes.find()
-  .populate('owner', 'reviews')
+  // .populate('owner', 'reviews')
+  .populate('owner')
+  .populate('reviews')
   .then(recipes => res.status(200).json(recipes))
   .catch(err => res.json({ message: 'Something went wrong... Try again!', err }));
 })
@@ -29,7 +32,8 @@ router.get('/recipe/:id', (req, res, next) => {
   const { id } = req.params;
 
   Recipes.findById(id)
-  .populate('owner', 'reviews')
+  .populate('owner')
+  .populate('reviews')
   .then(recipe => res.status(200).json(recipe))
   .catch(err => res.json({ message: 'Something went wrong... Try again!', err }));
 })
