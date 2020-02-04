@@ -11,7 +11,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   favourites: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
   role: { type: String, enum: ['admin', 'user'] },
-  picture: {type: String, default: ''},
+  picture: String
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
