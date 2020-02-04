@@ -57,7 +57,7 @@ authRoutes.post('/login', (req, res, next) => {
     }
 
     if (!user) {
-      res.status(401).json(failureDetails);
+      res.status(401).json({ message: 'Username not found... Try again!', failureDetails });
       return;
     }
 
@@ -88,6 +88,3 @@ authRoutes.get('/loggedin', (req, res, next) => {
 });
 
 module.exports = authRoutes;
-
-// POST - signup/login
-// GET - logout and loggedin
