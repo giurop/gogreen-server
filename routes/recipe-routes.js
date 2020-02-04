@@ -11,7 +11,7 @@ router.get('/allrecipes', (req, res, next) => {
   Recipes.find()
   .populate('owner', 'reviews')
   .then(recipes => res.status(200).json(recipes))
-  .catch(err => res.json(err));
+  .catch(err => res.json({ message: 'Something went wrong... Try again!', err }));
 })
 
 //PUT Route to edit recipes
@@ -21,7 +21,7 @@ router.put('/recipe/:id/edit', (req, res, next) => {
 
   Recipes.findByIdAndUpdate(id, { name, description, ingredients, dishTypes, vegan, cuisines, totalTimeMinutes, servings, instructions, picture })
   .then(recipe => res.json({ message: 'Recipe sucessfully updated' }))
-  .catch(err => res.json(err));
+  .catch(err => res.json({ message: 'Something went wrong... Try again!', err }));
 })
 
 //GET Route to access a specific recipe
@@ -31,7 +31,7 @@ router.get('/recipe/:id', (req, res, next) => {
   Recipes.findById(id)
   .populate('owner', 'reviews')
   .then(recipe => res.status(200).json(recipe))
-  .catch(err => res.json(err));
+  .catch(err => res.json({ message: 'Something went wrong... Try again!', err }));
 })
 
 //POST Route to add a new recipe
@@ -42,7 +42,7 @@ router.post('/add-a-new-recipe', (req, res, next) => {
     console.log(newRecipe)
     res.status(200).json({ message: `${newRecipe.name}  successfuly created!`, newRecipe })
   })
-  .catch(err => res.json(err))
+  .catch(err => res.json({ message: 'Something went wrong... Try again!', err }))
 })
 
 //DELETE Route to delete a recipe
@@ -50,7 +50,7 @@ router.delete('/recipe/:id/delete', (req, res, next) => {
   const { id } = req.params;
   Recipes.findByIdAndRemove(id)
   .then(recipe => res.json({ message: 'Recipe successfully deleted'}))
-  .catch(err => res.json(err));
+  .catch(err => res.json({ message: 'Something went wrong... Try again!', err }));
 })
 
 //POST Route to upload images

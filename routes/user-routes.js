@@ -13,25 +13,22 @@ router.get('/user/:username', (req, res, next) => {
   User.findOne({ username })
     .populate('favourites')
     .then((response) => res.status(200).json(response))
-    .catch((err) => res.json(err));
+    .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
 });
 
 router.put('/user/:username', (req, res, next) => {
-  console.log('hit back edit')
   const { username } = req.params;
   const { firstName, lastName, email, usernameForm, oldPassword, newPassword } = req.body;
 
-  console.log(username);
-
   if (!oldPassword) {
-    res.json({ message: 'Password is required' });
+    res.status(400).json({ message: 'Password is required' });
     return;
   }
 
   User.findOne({ username })
     .then((response) => {
       if (!bcrypt.compareSync(oldPassword, response.password)) {
-        res.json({ message: 'Incorrect password' });
+        res.status(400).json({ message: 'Incorrect password' });
         return;
       }
       
@@ -41,14 +38,14 @@ router.put('/user/:username', (req, res, next) => {
           
           User.findOneAndUpdate({ username }, { firstName, lastName, email, username: usernameForm, password }, { new: true })
           .then((_) => res.status(200).json({ message: `User ${username} was updated successfully.` }))
-          .catch((err) => res.json(err))
+          .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again!', err }))
         } else {
           User.findOneAndUpdate({ username }, { firstName, lastName, email, username: usernameForm }, { new: true })
             .then((_) => res.status(200).json({ message: `User ${username} was updated successfully.` }))
-            .catch((err) => res.json(err))
+            .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again!', err }))
       }
     })
-    .catch((err) => res.json(err));
+    .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
 });
 
 router.delete('/user/:username', (req, res, next) => {
@@ -56,15 +53,8 @@ router.delete('/user/:username', (req, res, next) => {
 
   User.findOneAndRemove({ username })
     .then((_) => res.status(200).json({ message: `User ${username} was successfully deleted.` }))
-    .catch((err) => res.json(err));
+    .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
 });
 
 
 module.exports = router;
-
-
-// GET - profile details - route API DONE
-// /user/:username - route API DONE
-// PUT - edit profile - route API DONE
-// /user/:username/'edit' - route API DONE
-// DELETE - delete profile - route API Done
