@@ -7,7 +7,7 @@ const recipesCrudeJSON = require('./crude-recipes');
 
 // console.log(process.env);
 // Mongoose setup via .env 
-mongoose.connect('mongodb://localhost/go-green', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
