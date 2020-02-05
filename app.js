@@ -50,7 +50,7 @@ app.use(passport.session());
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: ['http://go-green-recipes.herokuapp.com/'],
 }));
 
 // routes
