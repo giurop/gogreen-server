@@ -66,6 +66,11 @@ app.use('/api', require('./routes/user-routes'));
 app.use('/api', require('./routes/recipe-routes'));
 app.use('/api', require('./routes/review-routes'));
 
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
+
 app.listen(process.env.PORT, () => console.log(`Listening on Port: ${process.env.PORT}`));
 
 module.exports = app;
