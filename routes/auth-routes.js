@@ -55,12 +55,12 @@ authRoutes.post('/login', (req, res, next) => {
       res.status(500).json({ message: 'Something went wrong when logging in' });
       return;
     }
-
+    
     if (!user) {
-      res.status(401).json({ message: 'Username not found... Try again!', failureDetails });
+      res.status(401).json({ message: 'Error with username or password... Try again!', failureDetails });
       return;
     }
-
+    
     req.login(user, (err) => {
       if (err) {
         res.status(500).json({ message: 'Session saving went bad' });
