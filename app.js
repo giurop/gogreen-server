@@ -9,7 +9,6 @@ const passport = require('passport');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// const favicon = require('serve-favicon');
 
 require('./configs/passport');
 
