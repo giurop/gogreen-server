@@ -50,7 +50,7 @@ app.use(passport.session());
 //
 app.use(cors({
   credentials: true,
-  origin: ['http://go-green.netlify.com/'],
+  origin: ['https://go-green.netlify.com'],
 }));
 
 // routes
