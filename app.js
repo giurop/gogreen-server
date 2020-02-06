@@ -47,7 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // cors
-
+//
 app.use(cors({
   credentials: true,
   origin: ['https://go-green.netlify.com/'],
