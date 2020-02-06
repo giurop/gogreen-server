@@ -9,7 +9,6 @@ const passport = require('passport');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// const favicon = require('serve-favicon');
 
 require('./configs/passport');
 
@@ -48,16 +47,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // cors
-
+//
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: ['https://go-green.netlify.com'],
 }));
 
 // routes
 
-const index = require('./routes/index');
-app.use('/', index);
+// const index = require('./routes/index');
+// app.use('/', index);
 
 const authRoutes = require('./routes/auth-routes');
 app.use('/api', authRoutes);
@@ -65,6 +64,11 @@ app.use('/api', authRoutes);
 app.use('/api', require('./routes/user-routes'));
 app.use('/api', require('./routes/recipe-routes'));
 app.use('/api', require('./routes/review-routes'));
+
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 app.listen(process.env.PORT, () => console.log(`Listening on Port: ${process.env.PORT}`));
 
