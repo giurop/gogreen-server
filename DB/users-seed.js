@@ -6,7 +6,7 @@ const bcryptSalt = 10;
 const Users = require('../models/Users');
 const Recipe = require('../models/Recipes');
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect('mongodb://heroku_0lpkwr3k:p9uf697beu8ppkd4jkc5nbhp84@ds045637.mlab.com:45637/heroku_0lpkwr3k', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
