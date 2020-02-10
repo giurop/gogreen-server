@@ -2,16 +2,30 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const Reviews = require('../models/Reviews');
+const Recipe = require('../models/Recipes');
 
 
 router.post('/addreview', (req, res, next) => {
   const { owner, score, difficulty, comment } = req.body;
-  
+  const { recipeID } = req.body.recipeID;
+
   Reviews.create({ owner, score, difficulty, comment })
-  .then( newReview => {
-    res.status(200).json({ message: 'New review successfully created', newReview });
-  })
-  .catch(err => res.status(500).json({ message: 'Something went wrong... Try again', err }));
+    .then((newReview) => {
+      const { _id } = newReview;
+
+      if(!mongoose.Types.ObjectId.isValid(recipeID)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+      }
+
+      Recipe.findByIdAndUpdate(recipeID, { $push: { reviews: _id } })
+        .then(response => {
+          console.log(response);
+          res.status(200).json({ message: 'New review successfully created', newReview });
+        })
+        .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again', err }));
+    })
+    .catch((err) => res.status(500).json({ message: 'Something went wrong... Try again', err }));
 });
 
 router.get('/review/:id', (req, res, next) => {
