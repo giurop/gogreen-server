@@ -7,7 +7,8 @@ const recipesCrudeJSON = require('./crude-recipes');
 
 // console.log(process.env);
 // Mongoose setup via .env 
-mongoose.connect('mongodb://heroku_0lpkwr3k:p9uf697beu8ppkd4jkc5nbhp84@ds045637.mlab.com:45637/heroku_0lpkwr3k', {
+// mongoose.connect('mongodb://heroku_0lpkwr3k:p9uf697beu8ppkd4jkc5nbhp84@ds045637.mlab.com:45637/heroku_0lpkwr3k', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
