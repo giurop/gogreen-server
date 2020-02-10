@@ -22,7 +22,7 @@ const recipeSchema = new Schema({
   ownerAPI: String,
   picture: String,
   verified: {type: Boolean, default: false},
-  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'Reviews' }],
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });

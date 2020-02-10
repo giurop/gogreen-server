@@ -10,7 +10,6 @@ const uploadCloud = require('../configs/cloudinary');
 router.get('/allrecipes', (req, res, next) => {
 
   Recipes.find()
-  // .populate('owner', 'reviews')
   .populate('owner')
   .populate('reviews')
   .then(recipes => res.status(200).json(recipes))
