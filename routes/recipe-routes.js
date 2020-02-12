@@ -45,21 +45,6 @@ router.get('/recipe/:id', (req, res, next) => {
     .catch(err => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
 });
 
-// User.findOne({
-//   name: 'Val'
-// }).
-// populate({
-//   path: 'friends',
-//   model: 'User'
-// }).
-// populate({
-//   path: 'posts',
-//   model: 'Post',
-//   populate: {
-//       path: 'comments',
-//       model: 'Comment'
-//   }
-
 //POST Route to add a new recipe
 router.post('/add-a-new-recipe', (req, res, next) => {
   const { owner, name, description, ingredients, dishTypes, vegan, cuisines, totalTimeMinutes, servings, instructions, picture } = req.body; 
