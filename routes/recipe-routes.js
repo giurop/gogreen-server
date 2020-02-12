@@ -31,11 +31,34 @@ router.get('/recipe/:id', (req, res, next) => {
   const { id } = req.params;
 
   Recipes.findById(id)
-  .populate('owner')
-  .populate('reviews')
-  .then(recipe => res.status(200).json(recipe))
-  .catch(err => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
-})
+    .populate('owner')
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'owner',
+      },
+    })
+    .then(recipe => {
+      console.log(recipe);
+      res.status(200).json(recipe);
+    })
+    .catch(err => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
+});
+
+// User.findOne({
+//   name: 'Val'
+// }).
+// populate({
+//   path: 'friends',
+//   model: 'User'
+// }).
+// populate({
+//   path: 'posts',
+//   model: 'Post',
+//   populate: {
+//       path: 'comments',
+//       model: 'Comment'
+//   }
 
 //POST Route to add a new recipe
 router.post('/add-a-new-recipe', (req, res, next) => {

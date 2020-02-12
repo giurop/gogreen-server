@@ -32,6 +32,7 @@ router.get('/review/:id', (req, res, next) => {
   const { id } = req.params;
 
   Reviews.findById(id)
+    .populate('owner')
     .then(review => res.status(200).json(review))
     .catch(err => res.status(500).json({ message: 'Something went wrong... Try again', err }));
 });
