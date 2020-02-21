@@ -6,10 +6,10 @@ const Recipe = require('../models/Recipes');
 
 
 router.post('/addreview', (req, res, next) => {
-  const { owner, score, difficulty, comment } = req.body;
+  const { owner, score, difficulty, title, comment } = req.body;
   const { recipeID } = req.body.recipeID;
 
-  Reviews.create({ owner, score, difficulty, comment })
+  Reviews.create({ owner, score, difficulty, title, comment })
     .then((newReview) => {
       const { _id } = newReview;
 
@@ -39,9 +39,9 @@ router.get('/review/:id', (req, res, next) => {
 
 router.put('/review/:id', (req, res, next) => {
   const { id } = req.params;
-  const { score, difficulty, comment } = req.body;
+  const { score, difficulty, title, comment } = req.body;
 
-  Reviews.findByIdAndUpdate(id, { score, difficulty, comment })
+  Reviews.findByIdAndUpdate(id, { score, difficulty, title, comment })
     .then(review => res.status(200).json({ message: 'Review successfully updated' }))
     .catch(err => res.status(500).json({ message: 'Something went wrong... Try again', err }));
 });
