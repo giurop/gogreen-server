@@ -10,7 +10,6 @@ const uploadCloud = require('../configs/cloudinary');
 router.get('/allrecipes', (req, res, next) => {
 
   Recipes.find()
-  // .populate('owner', 'reviews')
   .populate('owner')
   .populate('reviews')
   .then(recipes => res.status(200).json(recipes))
@@ -32,11 +31,19 @@ router.get('/recipe/:id', (req, res, next) => {
   const { id } = req.params;
 
   Recipes.findById(id)
-  .populate('owner')
-  .populate('reviews')
-  .then(recipe => res.status(200).json(recipe))
-  .catch(err => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
-})
+    .populate('owner')
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'owner',
+      },
+    })
+    .then(recipe => {
+      console.log(recipe);
+      res.status(200).json(recipe);
+    })
+    .catch(err => res.status(500).json({ message: 'Something went wrong... Try again!', err }));
+});
 
 //POST Route to add a new recipe
 router.post('/add-a-new-recipe', (req, res, next) => {

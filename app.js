@@ -61,6 +61,7 @@ app.use('/api', authRoutes);
 app.use('/api', require('./routes/user-routes'));
 app.use('/api', require('./routes/recipe-routes'));
 app.use('/api', require('./routes/review-routes'));
+app.use('/api', require('./routes/fav-routes'));
 
 app.use((req, res, next) => {
   // If no routes match, send them the React HTML.
